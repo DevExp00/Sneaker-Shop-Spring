@@ -1,0 +1,30 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate = "layout/main.html">
+
+<div layout:fragment="site_content">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="container">
+                <div class="row">
+                    <div th:each="item : ${tovary}" class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img th:src="'viewphoto/' + ${item.img}" alt="Product Image" class="card-img-top"
+                                 style="width: 100%; height: 300px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 th:text="${item.name}" class="card-title"></h5>
+                                <p th:text="'Price: ₸' + ${item.price}" class="card-text"></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a th:href="'/info/' + ${item.id}" class="btn btn-sm btn-outline-secondary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

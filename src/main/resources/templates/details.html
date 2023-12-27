@@ -1,0 +1,83 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate = "layout/main.html">
+
+<div layout:fragment = "site_content">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-6 offset-3">
+                <div class="jumbotron">
+                    <h1 class="display-4" th:text="${items.name}"></h1>
+                    <hr class="my-4">
+                    <form th:action="@{'/saveItem'}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="item_id" th:value="${items.getId()}">
+
+                        <div class="form-group mt-2">
+                            <label for="item_img" th:text="#{choosephoto}"></label>
+                            <input class="form-control" type="file" id="item_img" name="item_img">
+                        </div>
+                        <!-- NAME -->
+                        <div class="form-group">
+                            <label for="item_name" th:text="#{name}"></label>
+                            <input type="text" class="form-control" id="item_name" name="item_name" th:value="${items.name}">
+                        </div>
+                        <!-- PRICE -->
+                        <div class="form-group">
+                            <label for="item_price" th:text="#{price}"></label>
+                            <input type="number" class="form-control" id="item_price" name="item_price" max="100000" min="0" th:value="${items.price}">
+                        </div>
+                        <!-- AMOUNT -->
+                        <div class="form-group">
+                            <label for="item_price" th:text="#{amount}"></label>
+                            <input type="number" class="form-control" id="item_amount" name="item_amount" max="100000" min="0" th:value="${items.amount}">
+                        </div>
+                        <!-- COUNTRIES -->
+                        <div class="form-group">
+                            <label th:text="#{country}"></label>
+                            <select class="form-control" name="country_id">
+                                <option th:each="c : ${countries}" th:text="${c.code}" th:value="${c.id}"></option>
+                            </select>
+                        </div>
+                        <!-- CATEGORIES -->
+                        <div class="form-group mt-1">
+                            <label th:text="#{category}"></label>
+                            <div th:each="cat : ${categories}">
+                                <input type="checkbox" name="category_id" th:value="${cat.id}" th:checked="${items.category != null and items.category.contains(cat)}">
+                                <span th:text="${cat.name}"></span><br>
+                            </div>
+                        </div>
+                        <!-- BUTTONS -->
+                        <div class="form-group mt-2 ">
+                            <button class="btn btn-success" th:text="#{saveItemButton}"></button>
+                            <button type="button" class="btn btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" th:text="#{deleteButton}"></button>
+                        </div>
+                    </form>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form th:action="${'/deleteItem'}" method="post">
+                                <div class="modal-content">
+                                    <input type="hidden" name="item_id" th:value="${items.getId()}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{deleteItem}"></h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5 th:text="#{deleteItemText}"></h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{closeButton}"></button>
+                                        <button class="btn btn-danger" th:text="#{deleteButton}"></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
